@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/go-web-dev/event-bus-go-client/client"
+	"github.com/go-web-dev/event-bus-go/client"
 )
 
 func main() {
