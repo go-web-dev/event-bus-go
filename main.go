@@ -8,13 +8,14 @@ import (
 )
 
 func main() {
-	tcpClient, err := client.New("localhost:8080")
+	eventBusClient, err := client.New("localhost:8080")
 	if err != nil {
 		log.Fatal("could not create client", err)
 	}
-	res, err := tcpClient.HealthOperation()
+	res, err := eventBusClient.GetStreamInfo("hello13")
 	if err != nil {
-		log.Fatal("could not make health op request", err)
+		log.Fatal(err)
 	}
-	fmt.Println(res)
+
+	fmt.Println(res.Body)
 }
