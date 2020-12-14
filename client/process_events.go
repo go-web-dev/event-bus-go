@@ -10,6 +10,7 @@ type ProcessEventsResponseBody struct {
 	Events []struct {
 		ID        string          `json:"id"`
 		StreamID  string          `json:"stream_id"`
+		Status    int             `json:"status"`
 		Name      string          `json:"name"`
 		Body      json.RawMessage `json:"body"`
 		CreatedAt time.Time       `json:"created_at"`
