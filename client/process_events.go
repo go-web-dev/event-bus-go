@@ -1,19 +1,24 @@
 package client
 
 import (
-	"fmt"
+	"encoding/json"
+	"errors"
 	"time"
 )
 
 type ProcessEventsResponseBody struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
+	Events []struct {
+		ID        string          `json:"id"`
+		StreamID  string          `json:"stream_id"`
+		Name      string          `json:"name"`
+		Body      json.RawMessage `json:"body"`
+		CreatedAt time.Time       `json:"created_at"`
+	} `json:"events"`
 }
 
 type ProcessEventsResponse struct {
 	Response
-	Body []ProcessEventsResponseBody
+	Body ProcessEventsResponseBody
 }
 
 func (c Client) ProcessEvents(name string) (ProcessEventsResponse, error) {
@@ -32,16 +37,18 @@ func (c Client) ProcessEvents(name string) (ProcessEventsResponse, error) {
 	if err != nil {
 		return ProcessEventsResponse{}, err
 	}
-	fmt.Println(string(*res.Body))
+	if res.Reason != nil {
+		return ProcessEventsResponse{}, errors.New(*res.Reason)
+	}
 
-	var body []ProcessEventsResponseBody
+	var body ProcessEventsResponseBody
 	err = res.decodeBody(&body)
 	if err != nil {
 		return ProcessEventsResponse{}, err
 	}
 	response := ProcessEventsResponse{
 		Response: res,
-		Body: body,
+		Body:     body,
 	}
 
 	return response, nil

@@ -4,18 +4,19 @@ import (
 	"errors"
 )
 
-func (c Client) DeleteStream(name string) (Response, error) {
+func (c Client) MarkEvent(eventID string, status int) (Response, error) {
 	r := req{
-		Operation: "delete_stream",
-		Body: map[string]string{
-			"stream_name": name,
+		Operation: "mark_event",
+		Body: map[string]interface{}{
+			"event_id": eventID,
+			"status":   status,
 		},
 	}
+
 	err := c.write(r)
 	if err != nil {
 		return Response{}, err
 	}
-
 	res, err := c.read()
 	if err != nil {
 		return Response{}, err
@@ -23,5 +24,6 @@ func (c Client) DeleteStream(name string) (Response, error) {
 	if res.Reason != nil {
 		return Response{}, errors.New(*res.Reason)
 	}
+
 	return res, nil
 }

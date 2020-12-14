@@ -32,10 +32,10 @@ type req struct {
 }
 
 type Response struct {
-	Operation string  `json:"operation"`
-	Body      *json.RawMessage   `json:"body,omitempty"`
-	Status    bool    `json:"status"`
-	Reason    *string `json:"reason,omitempty"`
+	Operation string           `json:"operation"`
+	Body      *json.RawMessage `json:"body,omitempty"`
+	Status    bool             `json:"status"`
+	Reason    *string          `json:"reason,omitempty"`
 }
 
 func (r Response) decodeBody(v interface{}) error {

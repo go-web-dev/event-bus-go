@@ -1,13 +1,16 @@
 package client
 
 import (
+	"errors"
 	"time"
 )
 
 type CreateStreamResponseBody struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at"`
+	Stream struct {
+		ID        string    `json:"id"`
+		Name      string    `json:"name"`
+		CreatedAt time.Time `json:"created_at"`
+	} `json:"stream"`
 }
 
 type CreateStreamResponse struct {
@@ -31,6 +34,9 @@ func (c Client) CreateStream(name string) (CreateStreamResponse, error) {
 	if err != nil {
 		return CreateStreamResponse{}, err
 	}
+	if res.Reason != nil {
+		return CreateStreamResponse{}, errors.New(*res.Reason)
+	}
 
 	var body CreateStreamResponseBody
 	err = res.decodeBody(&body)
@@ -39,7 +45,7 @@ func (c Client) CreateStream(name string) (CreateStreamResponse, error) {
 	}
 	response := CreateStreamResponse{
 		Response: res,
-		Body: body,
+		Body:     body,
 	}
 
 	return response, nil

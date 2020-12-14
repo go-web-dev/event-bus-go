@@ -1,5 +1,9 @@
 package client
 
+import (
+	"errors"
+)
+
 func (c Client) Health() (Response, error) {
 	r := req{
 		Operation: "health",
@@ -9,5 +13,12 @@ func (c Client) Health() (Response, error) {
 		return Response{}, nil
 	}
 
-	return c.read()
+	res, err := c.read()
+	if err != nil {
+		return Response{}, err
+	}
+	if res.Reason != nil {
+		return Response{}, errors.New(*res.Reason)
+	}
+	return res, nil
 }
