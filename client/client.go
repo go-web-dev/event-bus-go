@@ -7,11 +7,17 @@ import (
 	"net"
 )
 
-type Client struct {
-	conn *net.TCPConn
+type Credentials struct {
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
 }
 
-func New(addr string) (*Client, error) {
+type Client struct {
+	conn        *net.TCPConn
+	credentials Credentials
+}
+
+func New(addr string, credentials Credentials) (*Client, error) {
 	tcpAddr, err := net.ResolveTCPAddr("tcp", addr)
 	if err != nil {
 		return nil, err
@@ -21,7 +27,8 @@ func New(addr string) (*Client, error) {
 		return nil, err
 	}
 	c := &Client{
-		conn: conn,
+		conn:        conn,
+		credentials: credentials,
 	}
 	return c, nil
 }
@@ -29,6 +36,7 @@ func New(addr string) (*Client, error) {
 type req struct {
 	Operation string      `json:"operation"`
 	Body      interface{} `json:"body,omitempty"`
+	Auth      Credentials `json:"auth"`
 }
 
 type Response struct {
@@ -46,6 +54,7 @@ func (r Response) decodeBody(v interface{}) error {
 }
 
 func (c Client) write(r req) error {
+	r.Auth = c.credentials
 	bs, err := json.Marshal(r)
 	if err != nil {
 		return err

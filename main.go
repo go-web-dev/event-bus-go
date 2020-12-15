@@ -8,11 +8,15 @@ import (
 )
 
 func main() {
-	eventBusClient, err := client.New("localhost:8080")
+	credentials := client.Credentials{
+		ClientID: "dope_go_client_id",
+		ClientSecret: "dope_go_client_secret",
+	}
+	eventBusClient, err := client.New("localhost:8080", credentials)
 	if err != nil {
 		log.Fatal("could not create client", err)
 	}
-	res, err := eventBusClient.MarkEvent("4f8c8a39-3b7b-4316-bfb2-d0c6ad9f0ccb", 1)
+	res, err := eventBusClient.CreateStream("steve")
 	if err != nil {
 		log.Fatal(err)
 	}
