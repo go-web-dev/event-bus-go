@@ -12,6 +12,8 @@ writing specific bytes to the connection (according to the protocol)
 so that the Event Bus service understand what the Go application wants,
 we instead delegate this responsibility to this client library.
 
+Library Version: `v0.0.1`
+
 ### Operations
 
 The library supports communication for all the following operations:

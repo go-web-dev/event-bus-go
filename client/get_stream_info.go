@@ -2,16 +2,11 @@ package client
 
 import (
 	"errors"
-	"time"
 )
 
 // GetStreamInfoResponseBody represents the response body when getting the info about a stream from Event Bus
 type GetStreamInfoResponseBody struct {
-	Stream struct {
-		ID        string    `json:"id"`
-		Name      string    `json:"name"`
-		CreatedAt time.Time `json:"created_at"`
-	} `json:"stream"`
+	Stream Stream `json:"stream"`
 }
 
 // GetStreamInfoResponseBody represents the response when getting the info about a stream from Event Bus
