@@ -23,10 +23,22 @@ type ProcessEventsResponse struct {
 }
 
 func (c Client) ProcessEvents(name string) (ProcessEventsResponse, error) {
+	return c.events(name, "process_events")
+}
+
+func (c Client) RetryEvents(name string) (ProcessEventsResponse, error) {
+	return c.events(name, "retry_events")
+}
+
+func (c Client) GetStreamEvents(name string) (ProcessEventsResponse, error) {
+	return c.events(name, "get_stream_events")
+}
+
+func (c Client) events(streamName, operation string) (ProcessEventsResponse, error) {
 	r := req{
-		Operation: "process_events",
+		Operation: operation,
 		Body: map[string]string{
-			"stream_name": name,
+			"stream_name": streamName,
 		},
 	}
 

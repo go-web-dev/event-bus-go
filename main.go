@@ -16,10 +16,10 @@ func main() {
 	if err != nil {
 		log.Fatal("could not create client", err)
 	}
-	res, err := eventBusClient.CreateStream("steve")
+	res, err := eventBusClient.GetStreamEvents("steve")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(res)
+	fmt.Println(res.Body.Events)
 }
