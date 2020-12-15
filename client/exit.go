@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// Exit tells the remote host Event Bus to close the current connection
 func (c Client) Exit() (Response, error) {
 	r := req{
 		Operation: "exit",

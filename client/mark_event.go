@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// MarkEvent marks an event's status, changing its workflow i.e. after events processing or retrying
 func (c Client) MarkEvent(eventID string, status int) (Response, error) {
 	r := req{
 		Operation: "mark_event",

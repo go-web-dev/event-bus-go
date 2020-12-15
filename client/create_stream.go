@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// CreateStreamResponseBody represents the response body when creating a stream given by Event Bus
 type CreateStreamResponseBody struct {
 	Stream struct {
 		ID        string    `json:"id"`
@@ -13,11 +14,13 @@ type CreateStreamResponseBody struct {
 	} `json:"stream"`
 }
 
+// CreateStreamResponse represents the response when creating a stream returned back from Event Bus
 type CreateStreamResponse struct {
 	Response
 	Body CreateStreamResponseBody
 }
 
+// CreateStream creates a new empty stream available for specific events
 func (c Client) CreateStream(name string) (CreateStreamResponse, error) {
 	r := req{
 		Operation: "create_stream",

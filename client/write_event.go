@@ -1,7 +1,10 @@
 package client
 
-import "errors"
+import (
+	"errors"
+)
 
+// WriteEvent writes an event to an existing stream
 func (c Client) WriteEvent(name string, event interface{}) (Response, error) {
 	r := req{
 		Operation: "write_event",

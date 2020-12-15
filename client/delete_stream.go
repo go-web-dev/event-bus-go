@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// DeleteStream deletes a stream along with all events associated to it
 func (c Client) DeleteStream(name string) (Response, error) {
 	r := req{
 		Operation: "delete_stream",

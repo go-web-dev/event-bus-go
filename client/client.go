@@ -7,16 +7,21 @@ import (
 	"net"
 )
 
+// Credentials represents the credentials for the client using the library.
+// They have to match the credentials stored inside Event Bus for that specific client
 type Credentials struct {
 	ClientID     string `json:"client_id"`
 	ClientSecret string `json:"client_secret"`
 }
 
+// Client represents the Event Bus client that communicates over TCP according to a specific protocol.
+// The connection that is created is only closed when calling Exit() or if the remote host closes it
 type Client struct {
 	conn        *net.TCPConn
 	credentials Credentials
 }
 
+// New creates a brand new Event Bus client that communicates TCP with the Event Bus service
 func New(addr string, credentials Credentials) (*Client, error) {
 	tcpAddr, err := net.ResolveTCPAddr("tcp", addr)
 	if err != nil {
@@ -39,6 +44,10 @@ type req struct {
 	Auth      Credentials `json:"auth"`
 }
 
+// Response represents the generic response for every request returned by Event Bus service.
+// Operation and Status are always present.
+// Body is present only in case of a success operation, otherwise it's nil and Status is false
+// Reason is present only in case of a failed operation, otherwise it's nil and Status is true
 type Response struct {
 	Operation string           `json:"operation"`
 	Body      *json.RawMessage `json:"body,omitempty"`

@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// GetStreamInfoResponseBody represents the response body when getting the info about a stream from Event Bus
 type GetStreamInfoResponseBody struct {
 	Stream struct {
 		ID        string    `json:"id"`
@@ -13,11 +14,13 @@ type GetStreamInfoResponseBody struct {
 	} `json:"stream"`
 }
 
+// GetStreamInfoResponseBody represents the response when getting the info about a stream from Event Bus
 type GetStreamInfoResponse struct {
 	Response
 	Body GetStreamInfoResponseBody
 }
 
+// GetStreamInfo gets the short info about a created stream
 func (c Client) GetStreamInfo(name string) (GetStreamInfoResponse, error) {
 	r := req{
 		Operation: "get_stream_info",

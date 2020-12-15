@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// Health responds back with a successful response to indicate the Event Bus service is uo and running
 func (c Client) Health() (Response, error) {
 	r := req{
 		Operation: "health",
