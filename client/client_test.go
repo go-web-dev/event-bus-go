@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net"
 	"sync"
 	"testing"
@@ -53,6 +54,7 @@ func (s *clientSuite) SetupTest() {
 }
 
 func (s *clientSuite) TearDownTest() {
+	s.checkConn()
 	s.Require().NoError(s.li.Close())
 	s.Require().NoError(s.conn.Close())
 }
@@ -173,7 +175,16 @@ func (s *clientSuite) writeRes(op string, status bool, body, reason string) {
 }
 
 func (s *clientSuite) checkConn() {
-	// check that nobody writes to conn
+	tcpAddr, err := net.ResolveTCPAddr("tcp", addr)
+	s.Require().NoError(err)
+	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	s.Require().NoError(err)
+	s.Require().NoError(conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond)))
+	bs, err := ioutil.ReadAll(conn)
+	s.Require().NotNil(err)
+	s.Regexp("read tcp .* i/o timeout", err.Error(), "unexpected write")
+	s.Empty(bs)
+
 }
 
 func TestClient(t *testing.T) {
