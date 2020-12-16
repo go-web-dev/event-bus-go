@@ -4,28 +4,28 @@ import (
 	"fmt"
 )
 
-func (s *clientSuite) Test_CreateStream_Success() {
+func (s *clientSuite) Test_GetStreamInfo_Success() {
 	body := fmt.Sprintf(
 		`{"stream": {"id": "stream-id", "name": "expenses", "created_at": "%s"}}`,
 		testTimeStr,
 	)
-	expectedBody := CreateStreamResponseBody{
+	expectedBody := GetStreamInfoResponseBody{
 		Stream: Stream{
 			ID:        "stream-id",
 			Name:      "expenses",
 			CreatedAt: testTime,
 		},
 	}
-	expected := CreateStreamResponse{
+	expected := GetStreamInfoResponse{
 		Response: Response{
-			Operation: "create_stream",
+			Operation: "get_stream_info",
 			Status:    true,
 		},
 		Body: expectedBody,
 	}
-	s.writeRes("create_stream", true, body, "")
+	s.writeRes("get_stream_info", true, body, "")
 
-	res, err := s.client.CreateStream("expenses")
+	res, err := s.client.GetStreamInfo("expenses")
 
 	s.Require().NoError(err)
 	s.Equal(expected.Operation, res.Operation)
@@ -34,19 +34,19 @@ func (s *clientSuite) Test_CreateStream_Success() {
 	s.Nil(res.Reason)
 }
 
-func (s *clientSuite) Test_CreateStream_Failure() {
-	reason := "could not create stream"
-	expected := CreateStreamResponse{
+func (s *clientSuite) Test_GetStreamInfo_Failure() {
+	reason := "could not get stream info"
+	expected := GetStreamInfoResponse{
 		Response: Response{
-			Operation: "create_stream",
+			Operation: "get_stream_info",
 			Status:    false,
 			Reason:    &reason,
 		},
-		Body: CreateStreamResponseBody{},
+		Body: GetStreamInfoResponseBody{},
 	}
-	s.writeRes("create_stream", false, "", reason)
+	s.writeRes("get_stream_info", false, "", reason)
 
-	res, err := s.client.CreateStream("expenses")
+	res, err := s.client.GetStreamInfo("expenses")
 
 	s.EqualError(err, reason)
 	s.Equal(expected.Operation, res.Operation)
@@ -55,10 +55,10 @@ func (s *clientSuite) Test_CreateStream_Failure() {
 	s.Nil(res.Response.Body)
 }
 
-func (s *clientSuite) Test_CreateStream_JSONError() {
+func (s *clientSuite) Test_GetStreamInfo_JSONError() {
 	s.write("}")
 
-	res, err := s.client.CreateStream("expenses")
+	res, err := s.client.GetStreamInfo("expenses")
 
 	s.EqualError(err, "invalid character '}' looking for beginning of value")
 	s.Empty(res)

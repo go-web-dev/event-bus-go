@@ -33,7 +33,11 @@ func (c Client) GetStreamInfo(name string) (GetStreamInfoResponse, error) {
 		return GetStreamInfoResponse{}, err
 	}
 	if res.Reason != nil {
-		return GetStreamInfoResponse{}, errors.New(*res.Reason)
+		r := GetStreamInfoResponse{}
+		r.Operation = res.Operation
+		r.Status = res.Status
+		r.Reason = res.Reason
+		return r, errors.New(*res.Reason)
 	}
 
 	var body GetStreamInfoResponseBody

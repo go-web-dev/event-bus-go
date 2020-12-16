@@ -40,6 +40,7 @@ func (s *clientSuite) SetupSuite() {
 	s.client = client
 
 	go func() {
+		// make sure conn is available first before exiting SetupSuite
 		conn, err := li.Accept()
 		s.Require().NoError(err)
 		s.conn = conn
@@ -63,7 +64,12 @@ func (s *clientSuite) Test_New() {
 	s.NotNil(client.conn)
 }
 
-func (s *clientSuite) write(op string, status bool, body, reason string) {
+func (s *clientSuite) write(text string) {
+	_, err := s.conn.Write([]byte(text + "\n"))
+	s.Require().NoError(err)
+}
+
+func (s *clientSuite) writeRes(op string, status bool, body, reason string) {
 	res := fmt.Sprintf(`{"operation": "%s", "status": %t`, op, status)
 	if body != "" {
 		res += fmt.Sprintf(`, "body": %s`, body)
@@ -71,10 +77,8 @@ func (s *clientSuite) write(op string, status bool, body, reason string) {
 	if reason != "" {
 		res += fmt.Sprintf(`, "reason": "%s"`, reason)
 	}
-	res += "}\n"
-
-	_, err := s.conn.Write([]byte(res))
-	s.Require().NoError(err)
+	res += "}"
+	s.write(res)
 }
 
 func TestClient(t *testing.T) {

@@ -26,7 +26,7 @@ type CreateStreamResponse struct {
 // CreateStream creates a new empty stream available for specific events
 func (c Client) CreateStream(name string) (CreateStreamResponse, error) {
 	r := req{
-		Operation: "create_stream", // maybe remove operation in response
+		Operation: "create_stream",
 		Body: map[string]string{
 			"stream_name": name,
 		},

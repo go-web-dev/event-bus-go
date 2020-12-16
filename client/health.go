@@ -19,7 +19,7 @@ func (c Client) Health() (Response, error) {
 		return Response{}, err
 	}
 	if res.Reason != nil {
-		return Response{}, errors.New(*res.Reason)
+		return res, errors.New(*res.Reason)
 	}
 	return res, nil
 }

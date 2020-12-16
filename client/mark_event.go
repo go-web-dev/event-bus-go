@@ -4,13 +4,18 @@ import (
 	"errors"
 )
 
+type MarkEventRequestBody struct {
+	EventID string `json:"event_id"`
+	Status  int    `json:"status"`
+}
+
 // MarkEvent marks an event's status, changing its workflow i.e. after events processing or retrying
 func (c Client) MarkEvent(eventID string, status int) (Response, error) {
 	r := req{
 		Operation: "mark_event",
-		Body: map[string]interface{}{
-			"event_id": eventID,
-			"status":   status,
+		Body: MarkEventRequestBody{
+			EventID: eventID,
+			Status: status,
 		},
 	}
 
@@ -23,7 +28,7 @@ func (c Client) MarkEvent(eventID string, status int) (Response, error) {
 		return Response{}, err
 	}
 	if res.Reason != nil {
-		return Response{}, errors.New(*res.Reason)
+		return res, errors.New(*res.Reason)
 	}
 
 	return res, nil
