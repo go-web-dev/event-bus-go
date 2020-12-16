@@ -39,12 +39,9 @@ func (s *clientSuite) SetupSuite() {
 	s.Require().NoError(err)
 	s.client = client
 
-	go func() {
-		// make sure conn is available first before exiting SetupSuite
-		conn, err := li.Accept()
-		s.Require().NoError(err)
-		s.conn = conn
-	}()
+	conn, err := li.Accept()
+	s.Require().NoError(err)
+	s.conn = conn
 }
 
 func (s *clientSuite) TearDownSuite() {
