@@ -6,16 +6,18 @@ import (
 	"time"
 )
 
+// Event represents the event inside the Event Bus
+type Event struct {
+	ID        string          `json:"id"`
+	StreamID  string          `json:"stream_id"`
+	Status    uint8             `json:"status"`
+	Body      json.RawMessage `json:"body"`
+	CreatedAt time.Time       `json:"created_at"`
+}
+
 // ProcessEventsResponseBody represents the response body when processing available events on a stream inside Event Bus
 type ProcessEventsResponseBody struct {
-	Events []struct {
-		ID        string          `json:"id"`
-		StreamID  string          `json:"stream_id"`
-		Status    int             `json:"status"`
-		Name      string          `json:"name"`
-		Body      json.RawMessage `json:"body"`
-		CreatedAt time.Time       `json:"created_at"`
-	} `json:"events"`
+	Events []Event `json:"events"`
 }
 
 // ProcessEventsResponseBody represents the response when processing available events on a stream inside Event Bus
@@ -56,7 +58,11 @@ func (c Client) events(streamName, operation string) (ProcessEventsResponse, err
 		return ProcessEventsResponse{}, err
 	}
 	if res.Reason != nil {
-		return ProcessEventsResponse{}, errors.New(*res.Reason)
+		r := ProcessEventsResponse{}
+		r.Operation = res.Operation
+		r.Status = res.Status
+		r.Reason = res.Reason
+		return r, errors.New(*res.Reason)
 	}
 
 	var body ProcessEventsResponseBody

@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// MarkEventRequestBody represents request body for marking (changing) an event's status in the Event Bus
 type MarkEventRequestBody struct {
 	EventID string `json:"event_id"`
 	Status  int    `json:"status"`
