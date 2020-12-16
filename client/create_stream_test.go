@@ -2,6 +2,7 @@ package client
 
 import (
 	"fmt"
+	"time"
 )
 
 func (s *clientSuite) Test_CreateStream_Success() {
@@ -55,12 +56,32 @@ func (s *clientSuite) Test_CreateStream_Failure() {
 	s.Nil(res.Response.Body)
 }
 
-func (s *clientSuite) Test_CreateStream_JSONError() {
+func (s *clientSuite) Test_CreateStream_JSONReadError() {
 	s.write("}")
 
 	res, err := s.client.CreateStream("expenses")
 
 	s.EqualError(err, "invalid character '}' looking for beginning of value")
+	s.Empty(res)
+	s.Nil(res.Response.Body)
+}
+
+func (s *clientSuite) Test_CreateStream_ConnReadError() {
+	s.Require().NoError(s.client.conn.SetDeadline(time.Now().Add(-50 * time.Millisecond)))
+
+	res, err := s.client.CreateStream("expenses")
+
+	s.Require().NotNil(err)
+	s.Regexp("write tcp .* i/o timeout", err.Error())
+	s.Empty(res)
+}
+
+func (s *clientSuite) Test_CreateStream_JSONDecodeError() {
+	s.write(`{}`)
+
+	res, err := s.client.CreateStream("expenses")
+
+	s.EqualError(err, "cannot decode nil body")
 	s.Empty(res)
 	s.Nil(res.Response.Body)
 }

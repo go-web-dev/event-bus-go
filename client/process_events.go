@@ -10,7 +10,7 @@ import (
 type Event struct {
 	ID        string          `json:"id"`
 	StreamID  string          `json:"stream_id"`
-	Status    uint8             `json:"status"`
+	Status    uint8           `json:"status"`
 	Body      json.RawMessage `json:"body"`
 	CreatedAt time.Time       `json:"created_at"`
 }
@@ -27,18 +27,18 @@ type ProcessEventsResponse struct {
 }
 
 // ProcessEvents fetches all events marked as unprocessed from a specific stream
-func (c Client) ProcessEvents(name string) (ProcessEventsResponse, error) {
-	return c.events(name, "process_events")
+func (c Client) ProcessEvents(streamName string) (ProcessEventsResponse, error) {
+	return c.events(streamName, "process_events")
 }
 
 // ProcessEvents fetches all events marked as retry from a specific stream
-func (c Client) RetryEvents(name string) (ProcessEventsResponse, error) {
-	return c.events(name, "retry_events")
+func (c Client) RetryEvents(streamName string) (ProcessEventsResponse, error) {
+	return c.events(streamName, "retry_events")
 }
 
 // ProcessEvents fetches all events from a specific stream regardless of their statuses
-func (c Client) GetStreamEvents(name string) (ProcessEventsResponse, error) {
-	return c.events(name, "get_stream_events")
+func (c Client) GetStreamEvents(streamName string) (ProcessEventsResponse, error) {
+	return c.events(streamName, "get_stream_events")
 }
 
 func (c Client) events(streamName, operation string) (ProcessEventsResponse, error) {

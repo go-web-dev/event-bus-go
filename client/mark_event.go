@@ -16,7 +16,7 @@ func (c Client) MarkEvent(eventID string, status int) (Response, error) {
 		Operation: "mark_event",
 		Body: MarkEventRequestBody{
 			EventID: eventID,
-			Status: status,
+			Status:  status,
 		},
 	}
 

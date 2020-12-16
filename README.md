@@ -84,4 +84,7 @@ go test ./...
 
 # run tests with coverage
 ./coverage.sh
+
+# run tests with coverage with generated HTML report
+./coverage.sh --html
 ```

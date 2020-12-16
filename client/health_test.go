@@ -3,7 +3,7 @@ package client
 func (s *clientSuite) Test_Health_Success() {
 	expected := Response{
 		Operation: "health",
-		Status: true,
+		Status:    true,
 	}
 	s.writeRes("health", true, "", "")
 
@@ -17,8 +17,8 @@ func (s *clientSuite) Test_Health_Failure() {
 	reason := "could not call for health"
 	expected := Response{
 		Operation: "health",
-		Status: false,
-		Reason: &reason,
+		Status:    false,
+		Reason:    &reason,
 	}
 	s.writeRes("health", false, "", reason)
 
@@ -29,7 +29,7 @@ func (s *clientSuite) Test_Health_Failure() {
 	s.Nil(res.Body)
 }
 
-func (s *clientSuite) Test_Health_JSONError() {
+func (s *clientSuite) Test_Health_JSONReadError() {
 	s.write("}")
 
 	res, err := s.client.Health()

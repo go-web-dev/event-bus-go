@@ -3,7 +3,7 @@ package client
 func (s *clientSuite) Test_Exit_Success() {
 	expected := Response{
 		Operation: "exit",
-		Status: true,
+		Status:    true,
 	}
 	s.writeRes("exit", true, "", "")
 
@@ -17,8 +17,8 @@ func (s *clientSuite) Test_Exit_Failure() {
 	reason := "could not exit"
 	expected := Response{
 		Operation: "exit",
-		Status: false,
-		Reason: &reason,
+		Status:    false,
+		Reason:    &reason,
 	}
 	s.writeRes("exit", false, "", reason)
 
@@ -29,7 +29,7 @@ func (s *clientSuite) Test_Exit_Failure() {
 	s.Nil(res.Body)
 }
 
-func (s *clientSuite) Test_Exit_JSONError() {
+func (s *clientSuite) Test_Exit_JSONReadError() {
 	s.write("}")
 
 	res, err := s.client.Exit()

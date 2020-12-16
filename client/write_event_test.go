@@ -1,5 +1,7 @@
 package client
 
+import "time"
+
 var (
 	testEvt = map[string]string{
 		"key1": "value1",
@@ -36,7 +38,7 @@ func (s *clientSuite) Test_WriteEvent_Failure() {
 	s.Nil(res.Body)
 }
 
-func (s *clientSuite) Test_WriteEvent_JSONError() {
+func (s *clientSuite) Test_WriteEvent_JSONReadError() {
 	s.write("}")
 
 	res, err := s.client.WriteEvent("expenses", testEvt)
@@ -44,4 +46,14 @@ func (s *clientSuite) Test_WriteEvent_JSONError() {
 	s.EqualError(err, "invalid character '}' looking for beginning of value")
 	s.Empty(res)
 	s.Nil(res.Body)
+}
+
+func (s *clientSuite) Test_WriteEvent_ConnReadError() {
+	s.Require().NoError(s.client.conn.SetDeadline(time.Now().Add(-50 * time.Millisecond)))
+
+	res, err := s.client.WriteEvent("expenses", nil)
+
+	s.Require().NotNil(err)
+	s.Regexp("write tcp .* i/o timeout", err.Error())
+	s.Empty(res)
 }
