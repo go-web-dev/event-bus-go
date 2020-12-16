@@ -61,7 +61,7 @@ Make sure to adjust `ClientID` and `ClientSecret` accordingly.
 
 For more information on how to use the library check out the docs:
 
-[Event Bus Go Client - GoDoc](https://godoc.org/github.com/go-web-dev/event-bus-go/client)
+[Event Bus Go Client - GoDoc](https://pkg.go.dev/github.com/go-web-dev/event-bus-go/client)
 
 ### Prerequisites
 
