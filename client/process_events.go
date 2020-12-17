@@ -20,7 +20,7 @@ type ProcessEventsResponseBody struct {
 	Events []Event `json:"events"`
 }
 
-// ProcessEventsResponseBody represents the response when processing available events on a stream inside Event Bus
+// ProcessEventsResponse represents the response when processing available events on a stream inside Event Bus
 type ProcessEventsResponse struct {
 	Response
 	Body ProcessEventsResponseBody
@@ -31,12 +31,12 @@ func (c Client) ProcessEvents(streamName string) (ProcessEventsResponse, error) 
 	return c.events(streamName, "process_events")
 }
 
-// ProcessEvents fetches all events marked as retry from a specific stream
+// RetryEvents fetches all events marked as retry from a specific stream
 func (c Client) RetryEvents(streamName string) (ProcessEventsResponse, error) {
 	return c.events(streamName, "retry_events")
 }
 
-// ProcessEvents fetches all events from a specific stream regardless of their statuses
+// GetStreamEvents fetches all events from a specific stream regardless of their statuses
 func (c Client) GetStreamEvents(streamName string) (ProcessEventsResponse, error) {
 	return c.events(streamName, "get_stream_events")
 }

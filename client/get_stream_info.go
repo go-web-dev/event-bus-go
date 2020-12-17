@@ -9,7 +9,7 @@ type GetStreamInfoResponseBody struct {
 	Stream Stream `json:"stream"`
 }
 
-// GetStreamInfoResponseBody represents the response when getting the info about a stream from Event Bus
+// GetStreamInfoResponse represents the response when getting the info about a stream from Event Bus
 type GetStreamInfoResponse struct {
 	Response
 	Body GetStreamInfoResponseBody
