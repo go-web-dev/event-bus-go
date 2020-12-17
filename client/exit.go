@@ -11,7 +11,7 @@ func (c Client) Exit() (Response, error) {
 	}
 	err := c.write(r)
 	if err != nil {
-		return Response{}, nil
+		return Response{}, err
 	}
 
 	res, err := c.read()

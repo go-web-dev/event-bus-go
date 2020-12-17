@@ -1,5 +1,9 @@
 package client
 
+import (
+	"time"
+)
+
 func (s *clientSuite) Test_Exit_Success() {
 	expected := Response{
 		Operation: "exit",
@@ -37,4 +41,14 @@ func (s *clientSuite) Test_Exit_JSONReadError() {
 	s.EqualError(err, "invalid character '}' looking for beginning of value")
 	s.Empty(res)
 	s.Nil(res.Body)
+}
+
+func (s *clientSuite) Test_Exit_ConnReadError() {
+	s.Require().NoError(s.client.conn.SetDeadline(time.Now().Add(-50 * time.Millisecond)))
+
+	res, err := s.client.Exit()
+
+	s.Require().NotNil(err)
+	s.Regexp("write tcp .* i/o timeout", err.Error())
+	s.Empty(res)
 }

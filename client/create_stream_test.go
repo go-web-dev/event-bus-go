@@ -66,16 +66,6 @@ func (s *clientSuite) Test_CreateStream_JSONReadError() {
 	s.Nil(res.Response.Body)
 }
 
-func (s *clientSuite) Test_CreateStream_ConnReadError() {
-	s.Require().NoError(s.client.conn.SetDeadline(time.Now().Add(-50 * time.Millisecond)))
-
-	res, err := s.client.CreateStream("expenses")
-
-	s.Require().NotNil(err)
-	s.Regexp("write tcp .* i/o timeout", err.Error())
-	s.Empty(res)
-}
-
 func (s *clientSuite) Test_CreateStream_JSONDecodeError() {
 	s.write(`{}`)
 
@@ -84,4 +74,14 @@ func (s *clientSuite) Test_CreateStream_JSONDecodeError() {
 	s.EqualError(err, "cannot decode nil body")
 	s.Empty(res)
 	s.Nil(res.Response.Body)
+}
+
+func (s *clientSuite) Test_CreateStream_ConnReadError() {
+	s.Require().NoError(s.client.conn.SetDeadline(time.Now().Add(-50 * time.Millisecond)))
+
+	res, err := s.client.CreateStream("expenses")
+
+	s.Require().NotNil(err)
+	s.Regexp("write tcp .* i/o timeout", err.Error())
+	s.Empty(res)
 }

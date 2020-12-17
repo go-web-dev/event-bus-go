@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net"
 	"sync"
 	"testing"
@@ -175,15 +174,14 @@ func (s *clientSuite) writeRes(op string, status bool, body, reason string) {
 }
 
 func (s *clientSuite) checkConn() {
-	tcpAddr, err := net.ResolveTCPAddr("tcp", addr)
-	s.Require().NoError(err)
-	conn, err := net.DialTCP("tcp", nil, tcpAddr)
-	s.Require().NoError(err)
-	s.Require().NoError(conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond)))
-	bs, err := ioutil.ReadAll(conn)
+	s.Require().NoError(s.client.conn.SetReadDeadline(time.Now().Add(50 * time.Millisecond)))
+
+	reader := bufio.NewReader(s.client.conn)
+	bs, err := reader.ReadBytes('\n')
+
 	s.Require().NotNil(err)
 	s.Regexp("read tcp .* i/o timeout", err.Error(), "unexpected write")
-	s.Empty(bs)
+	s.Emptyf(bs, "unexpected write to connection: '%s'", string(bs))
 
 }
 
