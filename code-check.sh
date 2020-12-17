@@ -23,7 +23,7 @@ if [ -n "$vetOut" ]; then
 fi
 
 # go lint
-lintOut=$(golint "$(go list ./...)")
+lintOut=$(go list ./... | xargs golint)
 if [ -n "$lintOut" ]; then
 	printf "go lint issues found:\n%s\n" "$lintOut"
 	status=1
