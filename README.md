@@ -1,4 +1,11 @@
-# Event Bus Go Client library
+# event-bus-go
+
+[![Build Status](https://travis-ci.org/go-web-dev/event-bus-go.svg?branch=master)](https://travis-ci.org/go-web-dev/event-bus-go)
+[![codecov](https://codecov.io/gh/go-web-dev/event-bus-go/branch/master/graph/badge.svg)](https://codecov.io/gh/go-web-dev/event-bus-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/go-web-dev/event-bus-go)](https://goreportcard.com/report/github.com/go-web-dev/event-bus-go)
+[![GoDoc](https://pkg.go.dev/github.com/go-web-dev/event-bus-go?status.svg)](https://pkg.go.dev/github.com/go-web-dev/event-bus-go)
+
+## Event Bus Go Client library
 
 This project represents the library that communicates between
 any Go application aka the client, and the [Event Bus](https://github.com/go-web-dev/event-bus)

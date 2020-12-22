@@ -2,10 +2,9 @@ language: go
 
 go:
   - 1.15.x
-  - tip
 
 script:
-  - ./coverage.sh --integration
+  - ./coverage.sh
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
