@@ -1,6 +1,6 @@
 # event-bus-go
 
-[![Build Status](https://travis-ci.org/go-web-dev/event-bus-go.svg?branch=master)](https://travis-ci.org/go-web-dev/event-bus-go)
+[![Build Status](https://travis-ci.com/go-web-dev/event-bus-go.svg?branch=master)](https://travis-ci.com/go-web-dev/event-bus-go)
 [![codecov](https://codecov.io/gh/go-web-dev/event-bus-go/branch/master/graph/badge.svg)](https://codecov.io/gh/go-web-dev/event-bus-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/go-web-dev/event-bus-go)](https://goreportcard.com/report/github.com/go-web-dev/event-bus-go)
 [![GoDoc](https://godoc.org/github.com/go-web-dev/event-bus-go/client?status.svg)](https://godoc.org/github.com/go-web-dev/event-bus-go/client)
