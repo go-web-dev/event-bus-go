@@ -19,7 +19,7 @@ writing specific bytes to the connection (according to the protocol)
 so that the Event Bus service understand what the Go application wants,
 we instead delegate this responsibility to this client library.
 
-Library Version: `v1.0.3` -  latest stable version
+Library Version: `v1.0.4` -  latest stable version
 
 ### Operations
 
@@ -46,6 +46,7 @@ Here's a small example:
 ```go
 import (
     "log"
+    "fmt"
 
     "github.com/go-web-dev/event-bus-go/client"
 )
@@ -60,6 +61,13 @@ eventBusClient, err := client.New("localhost:8080", credentials)
 if err != nil {
     log.Fatal("could not create client", err)
 }
+
+res, err := eventBusClient.CreateStream("some-stream-name")
+if err != nil {
+    log.Fatal("could not create stream", err)
+}
+
+fmt.Println("stream", res.Body.Stream)
 ```
 
 Make sure to adjust `ClientID` and `ClientSecret` accordingly.
